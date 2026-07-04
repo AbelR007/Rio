@@ -3,10 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rio Project Dashboard</title>
+    <title>Rio Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
 <body>
-    <h1>Rio Project Dashboard</h1>
-    <p>Charts and statistics will be displayed here.</p>
+    <div class="header">
+        <h1>Rio Dashboard</h1>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i data-feather="briefcase"></i>
+            <h3>{{ total_projects }}</h3>
+            <p>Total Projects</p>
+        </div>
+        <div class="stat-card">
+            <i data-feather="check-square"></i>
+            <h3>{{ total_tasks }}</h3>
+            <p>Total Tasks</p>
+        </div>
+        <div class="stat-card">
+            <i data-feather="message-square"></i>
+            <h3>{{ total_logs }}</h3>
+            <p>Total Logs</p>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="card chart-container">
+            {{ project_category_chart | safe }}
+        </div>
+        <div class="card chart-container">
+            {{ tasks_by_project_chart | safe }}
+        </div>
+        <div class="card chart-container" style="grid-column: 1 / -1;">
+            {{ task_timeline_chart | safe }}
+        </div>
+    </div>
+    
+    <div class="main-grid">
+        <div class="card">
+            <h2><i data-feather="activity"></i>Recent Logs</h2>
+            <div class="table-container">
+                <table>
+                    <tbody>
+                        {% for log in recent_logs %}
+                        <tr>
+                            <td>{{ log.content }} <span class="subtle-text">- on task '{{ log.task.title }}'</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <h2><i data-feather="briefcase"></i>Projects</h2>
+            <div class="table-container">
+                <table>
+                    <tbody>
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ project.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        feather.replace();
+    </script>
 </body>
 </html>

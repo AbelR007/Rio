@@ -11,6 +11,7 @@ def create_db():
     """
     Creates the database and all tables.
     """
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
 def get_db():
