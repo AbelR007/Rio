@@ -1,0 +1,6 @@
+typer
+rich
+flask
+sqlalchemy
+plotly
+pandas
